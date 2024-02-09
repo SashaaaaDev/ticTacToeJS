@@ -157,22 +157,22 @@ a {
 
 @media (max-width:500px) {
   .wrap {
-    gap: 40px;
-
-  }
-
-  .title {
-    padding: 3em 0;
-  }
-}
-
-@media (max-width:380px) {
-  .wrap {
     gap: 30px;
 
   }
 
   .title {
-    padding: 2em 0;
+    padding: 2.5em 0;
+  }
+}
+
+@media (max-width:380px) {
+  .wrap {
+    gap: 20px;
+
+  }
+
+  .title {
+    padding: 1.2em 0;
   }
 }
