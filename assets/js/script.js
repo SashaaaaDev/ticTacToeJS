@@ -7,6 +7,8 @@ ticTacToe.prototype = {
     this.button = document.getElementById("buttonMove");
     this.arr = ["", "", "", "", "", "", "", "", ""];
     this.label = document.querySelector("#label");
+    this.anim = document.querySelectorAll(".off");
+
     this.playerMove = true;
     this.playerWin = false;
     this.LENGTH = this.arr.length;
@@ -24,18 +26,23 @@ ticTacToe.prototype = {
       }
       const botCell = document.querySelectorAll(".cell")[botMove];
       botCell.classList.add("bot");
+      botCell.classList.add("on");
       botCell.textContent = "O";
+      botCell.classList.remove("off");
       this.arr[botMove] = "O";
       this.playerMove = true;
     }
   },
 
   clickPlayer(event) {
+    console.log(this.anim);
     if (this.playerMove) {
       const clickedCell = event.target;
       const cellIndex = Array.from(this.position).indexOf(clickedCell);
       this.arr[cellIndex] = "X";
       clickedCell.textContent = "X";
+      clickedCell.classList.add("on");
+      clickedCell.classList.remove("off");
       clickedCell.classList.add("player");
       this.playerMove = false;
     }
@@ -47,7 +54,18 @@ ticTacToe.prototype = {
     this.checkWin();
   },
 
+  intervalAnim() {
+    setTimeout(() => {
+      this.label.classList.remove("label-bot");
+      this.label.classList.remove("label-player");
+      this.label.textContent = "";
+    }, 500);
+  },
+
   clickButton() {
+    this.label.style.animation = "none";
+    this.label.style.animation =
+      "animButtonOnetoZero 0.5s ease-in-out forwards";
     this.arr = ["", "", "", "", "", "", "", "", ""];
     this.position.forEach((item) => {
       item.classList.remove("player");
@@ -55,10 +73,8 @@ ticTacToe.prototype = {
       item.classList.remove("finish");
       item.textContent = "";
     });
-    this.button.style.display = "none";
-    this.label.classList.remove("label-bot");
-    this.label.classList.remove("label-player");
-    this.label.textContent = "";
+    this.button.style.animation =
+      "animButtonOnetoZero 0.5s ease-in-out forwards";
     this.playerWin = false;
   },
 
@@ -75,10 +91,12 @@ ticTacToe.prototype = {
       (this.arr[2] === "X" && this.arr[4] === "X" && this.arr[6] === "X")
     ) {
       this.position.forEach((el) => el.classList.add("finish"));
-      this.button.style.display = "block";
+      this.button.style.animation =
+        "animButtonZerotoOne 3s  cubic-bezier(0.5, 0.5, 0.4, 1.2) forwards";
       this.label.textContent = "Вы победили!";
       this.label.setAttribute("class", "label-player");
       this.playerWin = true;
+      this.label.style.animation = "animButtonZerotoOne 0.7s ease-in-out ";
     } else if (
       (this.arr[0] === "O" && this.arr[1] === "O" && this.arr[2] === "O") ||
       (this.arr[3] === "O" && this.arr[4] === "O" && this.arr[5] === "O") ||
@@ -90,12 +108,18 @@ ticTacToe.prototype = {
       (this.arr[2] === "O" && this.arr[4] === "O" && this.arr[6] === "O")
     ) {
       this.position.forEach((el) => el.classList.add("finish"));
-      this.button.style.display = "block";
+      this.button.style.animation =
+        "animButtonZerotoOne 3s  cubic-bezier(0.5, 0.5, 0.4, 1.2) forwards";
       this.label.setAttribute("class", "label-bot");
       this.label.textContent = "Вы проиграли!";
+      this.label.style.animation =
+        "animButtonZerotoOne 0.5s ease-in-out forwards";
     } else if (weightArr === 9) {
       this.position.forEach((el) => el.classList.add("finish"));
-      this.button.style.display = "block";
+      this.button.style.animation =
+        "animButtonZerotoOne 3s  cubic-bezier(0.5, 0.5, 0.4, 1.2) forwards";
+      this.label.style.animation =
+        "animButtonZerotoOne 0.5s ease-in-out forwards";
       this.label.setAttribute("class", "label-bot");
       this.label.textContent = "Ничья!";
     }
